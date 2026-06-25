@@ -7,8 +7,6 @@
 #   - .m3u   → VLC doesn't list these, so skipped via a small local MD5 cache
 # Re-running is always safe and idempotent.
 #
-# To download a YouTube playlist into a directory first, use playlist_download.sh.
-#
 # Usage:
 #   ./vlsync.sh --ip=<IP> --dir=<DIR> [OPTIONS]
 #
@@ -63,8 +61,7 @@ show_help() {
 }
 
 # Compute the filename VLC will store a file under. Must be used everywhere
-# (upload, dedup check) so the names always agree with playlist_download.sh's
-# .m3u references and what VLC lists:
+# (upload, dedup check) so the names always agree with what VLC lists:
 # 1. Replace fullwidth/special chars that iconv can't translate and that break
 #    curl's file-open path handling (＂ ⧸ etc.)
 # 2. Transliterate remaining non-ASCII (accents like À) to ASCII via iconv
