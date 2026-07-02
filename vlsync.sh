@@ -56,7 +56,7 @@ print_error()   { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 # Help
 # --------------------
 show_help() {
-  grep '^#' "$0" | grep -v '#!/' | sed 's/^# \?//'
+  awk '/^# *=/{f++} {sub(/^# */, ""); print; if (f > 1) {exit}}' $0
   exit 0
 }
 
