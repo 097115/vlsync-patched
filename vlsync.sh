@@ -60,6 +60,29 @@ show_help() {
   exit 0
 }
 
+# --------------------
+# Helpers
+# --------------------
+# Replicate BSD md5 behaviour
+case $OSTYPE in
+  linux*)
+    md5() {
+      if [ "$1" = "-q" ]; then
+        # Mimics BSD -q output format: hash
+        shift
+        md5sum "$@" | awk '{print $1}'
+      else
+        # Mimics BSD default output format: MD5 (file) = hash
+        for file in "$@"; do
+          if [ -f "$file" ]; then
+            echo "MD5 ($file) = $(md5sum "$file" | awk '{print $1}')"
+          fi
+        done
+      fi
+    }
+  ;;
+esac
+
 # Compute the filename VLC will store a file under. Must be used everywhere
 # (upload, dedup check) so the names always agree with what VLC lists:
 # 1. Replace fullwidth/special chars that iconv can't translate and that break
